@@ -63,33 +63,64 @@ public class Main {
 
     }
 
-    public static void searchLT(Set<Laptop> laptops, HashMap<String, Object> listOfProperties){
+    public static void searchLT(Set<Laptop> laptops, HashMap<String, String> listOfProperties){
         Set<Laptop> laptopsSorted = new HashSet<>();
         for (Laptop l: laptops) {
             for (String key: listOfProperties.keySet()) {
-                if (l.getRam() >= (Integer) listOfProperties.get(key) && listOfProperties.containsKey("ram")){
-                    laptopsSorted.add(l);
-
-                } else if (l.rom >= (Integer) listOfProperties.get(key) && listOfProperties.containsKey("rom")) {
-                    laptopsSorted.add(l);
-
-                } else if (l.os.equals(listOfProperties.get(key)) && listOfProperties.containsKey("os")) {
-                    laptopsSorted.add(l);
-
-                } else if (l.color.equals(listOfProperties.get(key)) && listOfProperties.containsKey("color")) {
-                    laptopsSorted.add(l);
-
-                } else if (l.screenSize >= (Integer) listOfProperties.get(key) && listOfProperties.containsKey("screenSize")) {
-                    laptopsSorted.add(l);
-
-                } else if (l.getManufacture().equals(listOfProperties.get(key)) && listOfProperties.containsKey("manufacture")) {
-                    laptopsSorted.add(l);
-
-                } else if (l.getPrice() <= (Integer) listOfProperties.get(key) && listOfProperties.containsKey("price")){
-                    laptopsSorted.add(l);
-
+                if (laptopsSorted.isEmpty()) {
+                    if (key.equals("os") && l.os.equals(listOfProperties.get(key))) {
+                        laptopsSorted.add(l);
+                    } else if (key.equals("color") && l.color.equals(listOfProperties.get(key))) {
+                        laptopsSorted.add(l);
+                    } else if (key.equals("manufacture") && l.getManufacture().equals(listOfProperties.get(key))) {
+                        laptopsSorted.add(l);
+                    } else if (key.equals("ram")) {
+                        laptopsSorted.add(l);
+                    }
+                } else {
+                    for (Laptop ls: laptopsSorted)
+                    if (key.equals("os") && ls.os.equals(listOfProperties.get(key))) {
+                        laptopsSorted.add(ls);
+                    } else if (key.equals("color") && ls.color.equals(listOfProperties.get(key))) {
+                        laptopsSorted.add(ls);
+                    } else if (key.equals("manufacture") && ls.getManufacture().equals(listOfProperties.get(key))) {
+                        laptopsSorted.add(ls);
+                    } else if (key.equals("os") && ls.os.equals(listOfProperties.get(key))) {
+                        laptopsSorted.remove(ls);
+                    } else if (key.equals("color") && ls.color.equals(listOfProperties.get(key))) {
+                        laptopsSorted.remove(ls);
+                    } else if (key.equals("manufacture") && ls.getManufacture().equals(listOfProperties.get(key))) {
+                        laptopsSorted.remove(ls);
+                    } else if (key.equals("ram") && ls.ram >= (Integer) listOfProperties.get(key)) {
+                        laptopsSorted.remove(ls);
+                    }
                 }
+
             }
+
+////                if (key.equals("ram") && l.getRam() >= (int) listOfProperties.get(key)){
+////                    laptopsSorted.add(l);
+////
+////                } else if (key.equals("rom") && l.rom >= (Integer) listOfProperties.get(key)) {
+////                    laptopsSorted.add(l);
+//
+//                if (key.equals("os") && l.os.equals(listOfProperties.get(key))) {
+//                    laptopsSorted.add(l);
+//
+//                } else if (key.equals("color") && l.color.equals(listOfProperties.get(key)) ) {
+//                    laptopsSorted.add(l);
+//
+////                } else if (key.equals("screenSize") && l.screenSize >= (Integer) listOfProperties.get(key)) {
+////                    laptopsSorted.add(l);
+//
+//                } else if (key.equals("manufacture") && l.getManufacture().equals(listOfProperties.get(key))) {
+//                    laptopsSorted.add(l);
+//
+////                } else if (key.equals("price") && l.getPrice() <= (Integer) listOfProperties.get(key)){
+////                    laptopsSorted.add(l);
+//
+//                }
+
         }
         System.out.println("Ноутбуки подходящие по параметрам поиска:");
         System.out.println();
@@ -100,8 +131,8 @@ public class Main {
     }
 
 
-    public static HashMap<String, Object> createListOfProperties(Set<Laptop> laptops) {
-        HashMap<String, Object> listOfProperties = new HashMap<>();
+    public static HashMap<String, String> createListOfProperties(Set<Laptop> laptops) {
+        HashMap<String, String> listOfProperties = new HashMap<>();
 //        Set<Laptop> searchedLaptops = new HashSet<>();
         Scanner sc1 = new Scanner(System.in);
 
@@ -123,11 +154,11 @@ public class Main {
             switch (searchCondition) {
                 case 1:
                     System.out.println("Введите значение:");
-                    listOfProperties.put("ram", sc1.nextInt());
+                    listOfProperties.put("ram", sc1.next());
                     break;
                 case 2:
                     System.out.println("Введите значение:");
-                    listOfProperties.put("rom", sc1.nextInt());
+                    listOfProperties.put("rom", sc1.next());
                     break;
                 case 3:
                     System.out.println("Введите значение:");
@@ -143,7 +174,7 @@ public class Main {
                     break;
                 case 6:
                     System.out.println("Введите значение:");
-                    listOfProperties.put("screenSize", sc1.nextInt());
+                    listOfProperties.put("screenSize", sc1.next());
                     break;
                 case 7:
                     System.out.println("Введите значение:");
@@ -151,16 +182,16 @@ public class Main {
                     break;
                 case 8:
                     System.out.println("Введите значение:");
-                    listOfProperties.put("price", sc1.nextInt());
+                    listOfProperties.put("price", sc1.next());
                     break;
                 case 0:
                     flag = false;
                     sc1.close();
                     System.out.println("Подобранные по параметрам ноутбуки");
-                default:
-                    flag = false;
-                    sc1.close();
-                    System.out.println("Некорректные параметры поиска. Попробуйте снова");
+//                default:
+//                    flag = false;
+//                    sc1.close();
+//                    System.out.println("Некорректные параметры поиска. Попробуйте снова");
             }
         }
         for (String key: listOfProperties.keySet()){
