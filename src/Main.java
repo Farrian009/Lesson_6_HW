@@ -1,7 +1,6 @@
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
+
+import static java.lang.Integer.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +11,7 @@ public class Main {
         lp1.rom = 1024;
         lp1.typeHardDrive = "SSD";
         lp1.os = "Windows";
-        lp1.color = "Grey";
+        lp1.color = "Red";
         lp1.screenSize = 24;
         lp1.manufacture = "Dell";
         lp1.price = 4000;
@@ -60,76 +59,75 @@ public class Main {
         laptops.add(lp5);
 
         searchLT(laptops, createListOfProperties(laptops));
+        System.out.println();
 
     }
 
-    public static void searchLT(Set<Laptop> laptops, HashMap<String, String> listOfProperties){
+    public static void searchLT(Set<Laptop> laptops, HashMap<String, String> listOfProperties) {
         Set<Laptop> laptopsSorted = new HashSet<>();
-        for (Laptop l: laptops) {
-            for (String key: listOfProperties.keySet()) {
-                if (laptopsSorted.isEmpty()) {
-                    if (key.equals("os") && l.os.equals(listOfProperties.get(key))) {
+        ArrayList<String> keys = new ArrayList<>(listOfProperties.keySet());
+        for (Laptop l : laptops) {
+            for (int i = 0; i < keys.size(); i++) {
+                if (i == 0) {
+                    if (keys.get(i).equals("os") && l.os.equals(listOfProperties.get(keys.get(i)))) {
                         laptopsSorted.add(l);
-                    } else if (key.equals("color") && l.color.equals(listOfProperties.get(key))) {
+                    } else if (keys.get(i).equals("typeHardDrive") && l.typeHardDrive.equals(listOfProperties.get(keys.get(i)))) {
                         laptopsSorted.add(l);
-                    } else if (key.equals("manufacture") && l.getManufacture().equals(listOfProperties.get(key))) {
+                    } else if (keys.get(i).equals("color") && l.color.equals(listOfProperties.get(keys.get(i)))) {
                         laptopsSorted.add(l);
-                    } else if (key.equals("ram")) {
+                    } else if (keys.get(i).equals("manufacture") && l.getManufacture().equals(listOfProperties.get(keys.get(i)))) {
+                        laptopsSorted.add(l);
+                    } else if (keys.get(i).equals("ram") && l.getRam() >= Integer.parseInt(listOfProperties.get(keys.get(i)))) {
+                        laptopsSorted.add(l);
+                    } else if (keys.get(i).equals("rom") && l.rom >= Integer.parseInt(listOfProperties.get(keys.get(i)))) {
+                        laptopsSorted.add(l);
+                    } else if (keys.get(i).equals("screenSize") && l.screenSize >= Integer.parseInt(listOfProperties.get(keys.get(i)))) {
+                        laptopsSorted.add(l);
+                    } else if (keys.get(i).equals("price") && l.getPrice() <= Integer.parseInt(listOfProperties.get(keys.get(i)))) {
                         laptopsSorted.add(l);
                     }
                 } else {
-                    for (Laptop ls: laptopsSorted)
-                    if (key.equals("os") && ls.os.equals(listOfProperties.get(key))) {
-                        laptopsSorted.add(ls);
-                    } else if (key.equals("color") && ls.color.equals(listOfProperties.get(key))) {
-                        laptopsSorted.add(ls);
-                    } else if (key.equals("manufacture") && ls.getManufacture().equals(listOfProperties.get(key))) {
-                        laptopsSorted.add(ls);
-                    } else if (key.equals("os") && ls.os.equals(listOfProperties.get(key))) {
-                        laptopsSorted.remove(ls);
-                    } else if (key.equals("color") && ls.color.equals(listOfProperties.get(key))) {
-                        laptopsSorted.remove(ls);
-                    } else if (key.equals("manufacture") && ls.getManufacture().equals(listOfProperties.get(key))) {
-                        laptopsSorted.remove(ls);
-                    } else if (key.equals("ram") && ls.ram >= (Integer) listOfProperties.get(key)) {
-                        laptopsSorted.remove(ls);
+                    for (Laptop ls : laptopsSorted) {
+                        if (keys.get(i).equals("os") && !ls.os.equals(listOfProperties.get(keys.get(i)))) {
+                            laptopsSorted.remove(ls);
+                        } else if (keys.get(i).equals("typeHardDrive") && !ls.typeHardDrive.equals(listOfProperties.get(keys.get(i)))) {
+                            laptopsSorted.remove(ls);
+                        } else if (keys.get(i).equals("color") && !ls.color.equals(listOfProperties.get(keys.get(i)))) {
+                            laptopsSorted.remove(ls);
+                        } else if (keys.get(i).equals("manufacture") && !ls.getManufacture().equals(listOfProperties.get(keys.get(i)))) {
+                            laptopsSorted.remove(ls);
+                        } else if (keys.get(i).equals("ram") && ls.getRam() >= Integer.parseInt(listOfProperties.get(keys.get(i)))) {
+                            laptopsSorted.remove(ls);
+                        } else if (keys.get(i).equals("rom") && ls.rom >= Integer.parseInt(listOfProperties.get(keys.get(i)))) {
+                            laptopsSorted.remove(ls);
+                        } else if (keys.get(i).equals("screenSize") && ls.screenSize >= Integer.parseInt(listOfProperties.get(keys.get(i)))) {
+                            laptopsSorted.remove(ls);
+                        } else if (keys.get(i).equals("price") && ls.getPrice() <= Integer.parseInt(listOfProperties.get(keys.get(i)))) {
+                            laptopsSorted.remove(ls);
+                        }
                     }
+
                 }
+            }
+
+
+
+
+
+            for (String key : listOfProperties.keySet()) {
+
+
 
             }
 
-////                if (key.equals("ram") && l.getRam() >= (int) listOfProperties.get(key)){
-////                    laptopsSorted.add(l);
-////
-////                } else if (key.equals("rom") && l.rom >= (Integer) listOfProperties.get(key)) {
-////                    laptopsSorted.add(l);
-//
-//                if (key.equals("os") && l.os.equals(listOfProperties.get(key))) {
-//                    laptopsSorted.add(l);
-//
-//                } else if (key.equals("color") && l.color.equals(listOfProperties.get(key)) ) {
-//                    laptopsSorted.add(l);
-//
-////                } else if (key.equals("screenSize") && l.screenSize >= (Integer) listOfProperties.get(key)) {
-////                    laptopsSorted.add(l);
-//
-//                } else if (key.equals("manufacture") && l.getManufacture().equals(listOfProperties.get(key))) {
-//                    laptopsSorted.add(l);
-//
-////                } else if (key.equals("price") && l.getPrice() <= (Integer) listOfProperties.get(key)){
-////                    laptopsSorted.add(l);
-//
-//                }
-
         }
-        System.out.println("Ноутбуки подходящие по параметрам поиска:");
+
         System.out.println();
-        for (Laptop l: laptopsSorted) {
+        for (Laptop l : laptopsSorted) {
             System.out.println(l);
 
         }
     }
-
 
     public static HashMap<String, String> createListOfProperties(Set<Laptop> laptops) {
         HashMap<String, String> listOfProperties = new HashMap<>();
@@ -186,17 +184,13 @@ public class Main {
                     break;
                 case 0:
                     flag = false;
-                    sc1.close();
                     System.out.println("Подобранные по параметрам ноутбуки");
-//                default:
-//                    flag = false;
-//                    sc1.close();
-//                    System.out.println("Некорректные параметры поиска. Попробуйте снова");
+                    break;
+                default:
+                    flag = false;
+                    System.out.println("Некорректные параметры поиска. Попробуйте снова");
+                    break;
             }
-        }
-        for (String key: listOfProperties.keySet()){
-            Object value = listOfProperties.get(key);
-            System.out.println(key + "-----" + value);
         }
         return listOfProperties;
     }
